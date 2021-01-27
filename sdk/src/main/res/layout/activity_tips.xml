@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".ui.TipsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/cloud_tips_logo"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_divider"/>
+
+    <RelativeLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="19dp">
+
+            <ImageView
+                android:id="@+id/imageViewAvatar"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginTop="@dimen/marginTop"
+                android:src="@drawable/no_avatar_tips_activity"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:orientation="vertical"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/marginTop"
+                android:layout_marginEnd="@dimen/marginEnd"
+                android:gravity="start|center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageViewAvatar">
+
+                <TextView
+                    android:id="@+id/textViewName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik_medium"
+                    android:textStyle="normal"
+                    android:textSize="18sp"
+                    android:textColor="#272744"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/textViewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/rubik_regular"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:textColor="#272744"
+                    android:maxLines="1"
+                    android:alpha="0.7"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewAmount"
+                style="@style/CTTextViewCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/marginStart"
+                app:layout_constraintTop_toBottomOf="@id/imageViewAvatar"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/tips_amount"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextAmount"
+                style="@style/CTEditText"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginEnd="@dimen/marginEnd"
+                android:layout_marginTop="12dp"
+                android:paddingEnd="44dp"
+                android:inputType="number"
+                app:layout_constraintTop_toBottomOf="@id/textViewAmount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:fontFamily="@font/rubik_regular"
+                android:textSize="16sp"
+                android:textColor="#272744"
+                android:text="@string/app_rub_symbol"
+                app:layout_constraintTop_toTopOf="@id/editTextAmount"
+                app:layout_constraintBottom_toBottomOf="@id/editTextAmount"
+                app:layout_constraintEnd_toEndOf="@id/editTextAmount"/>
+
+            <TextView
+                android:id="@+id/textViewAmountDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginEnd="@dimen/marginEnd"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/rubik_regular"
+                android:textSize="12sp"
+                android:textColor="#272744"
+                android:alpha="0.7"
+                android:text="@string/tips_amount_desc_start"
+                app:layout_constraintTop_toBottomOf="@id/editTextAmount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <HorizontalScrollView
+                android:id="@+id/scrollViewAmounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:scrollbars="none"
+                app:layout_constraintTop_toBottomOf="@id/textViewAmountDesc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:clipToPadding="false">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
+                    android:paddingStart="@dimen/marginStart"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:orientation="horizontal"
+                    android:clipToPadding="false">
+
+                    <RadioButton
+                        android:id="@+id/radioButton100"
+                        style="@style/CTRadioButtonAmount"
+                        android:layout_marginStart="0dp"
+                        android:text="100 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton200"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="200 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton300"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="300 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton500"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="500 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton1000"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="1000 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton2000"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="2000 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton3000"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="3000 ₽"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton5000"
+                        style="@style/CTRadioButtonAmount"
+                        android:text="5000 ₽"/>
+                </RadioGroup>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/textViewComment"
+                style="@style/CTTextViewCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="@dimen/marginStart"
+                app:layout_constraintTop_toBottomOf="@id/scrollViewAmounts"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/tips_comment"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextComment"
+                style="@style/CTEditText"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginEnd="@dimen/marginEnd"
+                android:layout_marginTop="12dp"
+                android:inputType="textShortMessage"
+                app:layout_constraintTop_toBottomOf="@id/textViewComment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/buttonGPay"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginEnd="@dimen/marginEnd"
+                app:layout_constraintTop_toBottomOf="@id/editTextComment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/bg_button_black">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/g_pay_logo"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/buttonPayCard"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginEnd="@dimen/marginEnd"
+                app:layout_constraintTop_toBottomOf="@id/buttonGPay"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/bg_button_white"
+                android:elevation="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/tips_pay_card"
+                    android:fontFamily="@font/rubik_regular"
+                    android:textSize="16sp"
+                    android:textColor="#272744"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textViewAgreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:fontFamily="@font/rubik_regular"
+                android:textSize="12sp"
+                android:textColor="#272744"
+                android:alpha="0.7"
+                android:text="@string/tips_agreement"
+                app:layout_constraintTop_toBottomOf="@id/buttonPayCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutBottom"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="31dp"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginEnd="@dimen/marginEnd"
+                app:layout_constraintTop_toBottomOf="@id/textViewAgreement"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageViewVisa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:src="@drawable/bottom_visa"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/imageViewMasterCard"
+                    app:layout_constraintHorizontal_chainStyle="spread"/>
+
+                <ImageView
+                    android:id="@+id/imageViewMasterCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:src="@drawable/bottom_master_card"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imageViewVisa"
+                    app:layout_constraintEnd_toStartOf="@id/imageViewMir"/>
+
+                <ImageView
+                    android:id="@+id/imageViewMir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:src="@drawable/bottom_mir"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imageViewMasterCard"
+                    app:layout_constraintEnd_toStartOf="@id/imageViewPciDss"/>
+
+                <ImageView
+                    android:id="@+id/imageViewPciDss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:src="@drawable/bottom_pci_dss"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imageViewMir"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textViewRecaptcha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="31dp"
+                android:paddingStart="@dimen/marginStart"
+                android:paddingEnd="@dimen/marginEnd"
+                android:fontFamily="@font/rubik_regular"
+                android:textSize="12sp"
+                android:textColor="#272744"
+                android:alpha="0.7"
+                android:text="@string/tips_amount_desc_start"
+                android:textColorLink="#272744"
+                android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/constraintLayoutBottom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
