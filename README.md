@@ -9,14 +9,19 @@ Cloudtips SDK позволяет интегрировать прием чаев�
 Для подключения SDK в build.gradle уровня проекта добавить репозитрий Jitpack:
 
 ```
-repositories {
-	maven { url 'https://jitpack.io' }
-}
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
 И в build.gradle уровня приложения доюавить зависимость:
 
 ```
-implementation 'com.github.cloudpayments:CloudTips-SDK-Android:latest-version'
+dependencies {
+	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.1'
+}
 ```
 ### Структура проекта:
 

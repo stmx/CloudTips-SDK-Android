@@ -4,10 +4,13 @@
 
     <application>
 
-        <activity android:name=".ui.TipsActivity"/>
+        <activity android:name=".ui.TipsActivity"
+            android:theme="@style/Theme.CloudTipsSDKDemo"/>
 
-        <activity android:name=".ui.CardActivity"/>
+        <activity android:name=".ui.CardActivity"
+            android:theme="@style/Theme.CloudTipsSDKDemo"/>
 
-        <activity android:name=".ui.CompletionActivity"/>
+        <activity android:name=".ui.CompletionActivity"
+            android:theme="@style/Theme.CloudTipsSDKDemo"/>
     </application>
 </manifest>
