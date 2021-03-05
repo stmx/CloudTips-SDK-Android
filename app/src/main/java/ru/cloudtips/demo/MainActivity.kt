@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val tipsData = TipsData(phone, "User name")
+            val tipsData = TipsData(phone, "CloudTips demo user", "partner_id")
             val configuration = TipsConfiguration(tipsData)
             CloudTipsSDK.getInstance().start(configuration, this)
         }

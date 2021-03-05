@@ -15,10 +15,11 @@ class Api {
                 .subscribeOn(Schedulers.io())
         }
 
-        fun offlineRegister(phoneNumber: String, name: String): Single<ArrayList<Layout>> {
+        fun offlineRegister(phoneNumber: String, name: String, partner: String): Single<ArrayList<Layout>> {
 
             var body = OfflineRegisterRequestBody(phoneNumber = phoneNumber,
-                    name = name)
+                    name = name,
+                    agentCode = partner)
 
             return ApiFactory.getTipsApi()
                 .offlineRegister(body)

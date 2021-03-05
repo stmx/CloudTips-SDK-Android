@@ -181,7 +181,7 @@ internal class TipsActivity : PayActivity()  {
 
     private fun checkGetLayoutResponse(layouts: ArrayList<Layout>) {
         if (layouts.size == 0) {
-            offlineRegister(configuration.tipsData.phone, configuration.tipsData.name)
+            offlineRegister(configuration.tipsData.phone, configuration.tipsData.name, configuration.tipsData.partner)
         } else {
             layouts[0].layoutId?.let {
                 layoutId = it
@@ -190,9 +190,9 @@ internal class TipsActivity : PayActivity()  {
         }
     }
 
-    private fun offlineRegister(phoneNumber: String, name: String) {
+    private fun offlineRegister(phoneNumber: String, name: String, partner: String) {
         compositeDisposable.add(
-            Api.offlineRegister(phoneNumber, name)
+            Api.offlineRegister(phoneNumber, name, partner)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ layouts -> checkOfflineRegisterResponse(layouts) }, this::handleError)

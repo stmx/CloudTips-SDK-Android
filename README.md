@@ -20,7 +20,7 @@ allprojects {
 
 ```
 dependencies {
-	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.1'
+	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.2'
 }
 ```
 ### Структура проекта:
@@ -32,8 +32,10 @@ dependencies {
 
 Создайте объект TipsData с параметрами номер телефона (в формате +7**********) и имя пользователя (если пользователя с таким номером телефона нет в системе CloudTips, то будет зарегистрирован новый пользователь с этим именем), затем передайте его в объект TipsConfiguration и запустите SDK. 
 
+Если вы являетесь партнером CloudTips, передайте в конфигурацию id партнера.
+
 ```
-val tipsData = TipsData(phone, "User name")
+val tipsData = TipsData(phone, "User name", "Partner ID")
 val configuration = TipsConfiguration(tipsData)
 CloudTipsSDK.getInstance().start(configuration, this)
 ```
