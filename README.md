@@ -23,6 +23,16 @@ dependencies {
 	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.2'
 }
 ```
+
+### Google Pay
+
+Чтобы включить Google Pay в приложении, добавьте следующие метаданные в тег <application> файла AndroidManifest.xml.
+
+```
+<meta-data
+    android:name="com.google.android.gms.wallet.api.enabled"
+    android:value="true" />
+```
 ### Структура проекта:
 
 * **app** - Пример реализации приложения с использованием SDK
