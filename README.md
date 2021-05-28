@@ -20,7 +20,7 @@ allprojects {
 
 ```
 dependencies {
-	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.2'
+	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.3'
 }
 ```
 
