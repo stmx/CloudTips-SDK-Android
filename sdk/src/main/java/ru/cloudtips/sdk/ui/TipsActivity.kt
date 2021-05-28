@@ -50,8 +50,8 @@ internal class TipsActivity : PayActivity()  {
         intent.getParcelableExtra<TipsConfiguration>(EXTRA_CONFIGURATION)
     }
 
-    private lateinit var photoUrl: String
-    private lateinit var name: String
+    private var photoUrl = ""
+    private var name = ""
 
     private var minAmount = 49
     private var maxAmount = 10000

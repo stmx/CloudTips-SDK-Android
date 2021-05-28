@@ -1,9 +1,9 @@
-# Cloudtips SDK for Android 
+# CloudTips SDK for Android 
 
-Cloudtips SDK позволяет интегрировать прием чаевых в мобильные приложение для платформы Android.
+CloudTips SDK позволяет интегрировать прием чаевых в мобильные приложение для платформы Android.
 
 ### Требования
-Для работы Cloudtips SDK необходим Android версии 4.4 (API level 19) или выше.
+Для работы CloudTips SDK необходим Android версии 4.4 (API level 19) или выше.
 
 ### Подключение
 Для подключения SDK в build.gradle уровня проекта добавить репозитрий Jitpack:
@@ -26,6 +26,7 @@ dependencies {
 
 ### Google Pay
 
+CloudTips SDK поддерживает Google Pay
 Чтобы включить Google Pay в приложении, добавьте следующие метаданные в тег <application> файла AndroidManifest.xml.
 
 ```

@@ -3,11 +3,11 @@ package ru.cloudtips.sdk
 import androidx.appcompat.app.AppCompatActivity
 import ru.cloudtips.sdk.ui.TipsActivity
 
-public interface CloudTipsSDK {
+interface CloudTipsSDK {
 	fun start(configuration: TipsConfiguration, from: AppCompatActivity)
 
 	companion object {
-		public fun getInstance(): CloudTipsSDK {
+		fun getInstance(): CloudTipsSDK {
 			return CloudTipsSDKImpl()
 		}
 	}
