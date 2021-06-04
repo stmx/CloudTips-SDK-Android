@@ -68,7 +68,7 @@ class CompletionActivity : BaseActivity() {
         binding = ActivityCompletionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (photoUrl != HOST + "api/user/photo/avatar-default.svg") {
+        if (photoUrl != "") {
 
             Glide
                     .with(this)

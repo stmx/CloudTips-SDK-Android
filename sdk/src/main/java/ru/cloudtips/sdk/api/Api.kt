@@ -26,12 +26,6 @@ class Api {
                 .subscribeOn(Schedulers.io())
         }
 
-        fun getUser(layoutId: String): Single<Profile> {
-            return ApiFactory.getTipsApi()
-                .getUser(layoutId)
-                .subscribeOn(Schedulers.io())
-        }
-
         fun getPaymentPage(layoutId: String): Single<PaymentPage> {
             return ApiFactory.getTipsApi()
                 .getPaymentPage(layoutId)

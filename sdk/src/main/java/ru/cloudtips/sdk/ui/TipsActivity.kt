@@ -23,9 +23,8 @@ import ru.cloudpayments.sdk.util.TextWatcherAdapter
 import ru.cloudtips.sdk.R
 import ru.cloudtips.sdk.TipsConfiguration
 import ru.cloudtips.sdk.api.Api
-import ru.cloudtips.sdk.api.HOST
+import ru.cloudtips.sdk.api.ApiEndPoint
 import ru.cloudtips.sdk.api.models.*
-import ru.cloudtips.sdk.base.BaseActivity
 import ru.cloudtips.sdk.base.PayActivity
 import ru.cloudtips.sdk.databinding.ActivityTipsBinding
 import ru.cloudtips.sdk.utils.GooglePayHandler
@@ -76,6 +75,8 @@ internal class TipsActivity : PayActivity()  {
         super.onCreate(savedInstanceState)
         binding = ActivityTipsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ApiEndPoint.testMode = configuration.testMode
 
         showLoading()
         initUI()
@@ -185,7 +186,7 @@ internal class TipsActivity : PayActivity()  {
         } else {
             layouts[0].layoutId?.let {
                 layoutId = it
-                getUser(layoutId)
+                getPaymentPage(layoutId)
             }
         }
     }
@@ -206,55 +207,8 @@ internal class TipsActivity : PayActivity()  {
         } else {
             layouts[0].layoutId?.let {
                 layoutId = it
-                getUser(layoutId)
+                getPaymentPage(layoutId)
             }
-        }
-    }
-
-    private fun getUser(layoutId: String) {
-
-        compositeDisposable.add(
-            Api.getUser(layoutId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ profile -> checkGetUserResponse(profile) }, this::handleError)
-        )
-    }
-
-    private fun checkGetUserResponse(profile: Profile) {
-
-        photoUrl = profile.photoUrl ?: HOST + "api/user/photo/avatar-default.svg"
-
-        if (photoUrl != HOST + "api/user/photo/avatar-default.svg") {
-
-            Glide
-                .with(this)
-                .load(profile.photoUrl)
-                .apply(RequestOptions.bitmapTransform(CenterCrop()))
-                .circleCrop()
-                .into(binding.imageViewAvatar)
-        }
-
-        name = profile.name ?: ""
-
-        if (name.isEmpty()) {
-            binding.textViewName.visibility = View.GONE
-            binding.textViewDescription.setText(R.string.tips_desc_name_is_empty)
-        } else {
-            binding.textViewName.visibility = View.VISIBLE
-            binding.textViewName.text = name
-            binding.textViewDescription.setText(R.string.tips_desc_name_is_not_empty)
-        }
-
-        val paymentPageType = profile.paymentPageType ?: "Old"
-
-        if (paymentPageType == "New") {
-            getPaymentPage(layoutId)
-        } else {
-            val dec = DecimalFormat("#,###.##")
-            val amount_desc = getString(R.string.tips_amount_desc_start) + dec.format(minAmount) + getString(R.string.tips_amount_desc_divider) + dec.format(maxAmount) + getString(R.string.tips_amount_desc_end)
-            binding.textViewAmountDesc.text = amount_desc
-            hideLoading();
         }
     }
 
@@ -269,6 +223,32 @@ internal class TipsActivity : PayActivity()  {
     }
 
     private fun checkGetPaymentPageResponse(paymentPage: PaymentPage) {
+
+        photoUrl = paymentPage.avatarUrl ?: ""
+        if (photoUrl == "https://api.cloudtips.ru/api/images/avatar-default" || photoUrl == "https://api-preprod.cloudtips.ru/api/images/avatar-default") {
+            photoUrl = ""
+        }
+
+        if (photoUrl != "") {
+
+            Glide
+                .with(this)
+                .load(paymentPage.avatarUrl)
+                .apply(RequestOptions.bitmapTransform(CenterCrop()))
+                .circleCrop()
+                .into(binding.imageViewAvatar)
+        }
+
+        name = paymentPage.nameText ?: ""
+
+        if (name.isEmpty()) {
+            binding.textViewName.visibility = View.GONE
+            binding.textViewDescription.setText(R.string.tips_desc_name_is_empty)
+        } else {
+            binding.textViewName.visibility = View.VISIBLE
+            binding.textViewName.text = name
+            binding.textViewDescription.setText(R.string.tips_desc_name_is_not_empty)
+        }
 
         var amountConstraints = paymentPage.amount?.constraints
 

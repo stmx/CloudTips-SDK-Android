@@ -10,14 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.cloudtips.sdk.api.interfaces.TipsApi
 import java.util.concurrent.TimeUnit
 
-const val HOST = "https://lk.cloudtips.ru/"
-const val API_URL = "api/"
-
 const val TIMEOUT: Long = 60;
 const val WRITE_TIMEOUT: Long = 20;
 const val CONNECT_TIMEOUT: Long = 10;
-
-const val API_ENDPOINT = HOST + API_URL
 
 class ApiFactory {
 
@@ -41,7 +36,7 @@ class ApiFactory {
         @NonNull
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
-                .baseUrl(API_ENDPOINT)
+                .baseUrl(ApiEndPoint.getUrl())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)

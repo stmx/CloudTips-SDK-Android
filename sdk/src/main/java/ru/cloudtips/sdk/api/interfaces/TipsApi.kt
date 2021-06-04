@@ -12,9 +12,6 @@ interface TipsApi {
     @POST("auth/offlineregister")
     fun offlineRegister(@Body body: OfflineRegisterRequestBody): Single<ArrayList<Layout>>
 
-    @GET("user/public/{layoutId}")
-    fun getUser(@Path("layoutId") layoutId: String): Single<Profile>
-
     @GET("paymentpages/{layoutId}")
     fun getPaymentPage(@Path("layoutId") layoutId: String): Single<PaymentPage>
 

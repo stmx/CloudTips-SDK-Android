@@ -20,7 +20,7 @@ allprojects {
 
 ```
 dependencies {
-	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.0.3'
+	implementation 'com.github.cloudpayments:CloudTips-SDK-Android:1.1.0'
 }
 ```
 
@@ -47,7 +47,8 @@ CloudTips SDK поддерживает Google Pay
 
 ```
 val tipsData = TipsData(phone, "User name", "Partner ID")
-val configuration = TipsConfiguration(tipsData)
+val configuration = TipsConfiguration(tipsData) 
+val configuration = TipsConfiguration(tipsData, true) // Если необходимо включить режим тестирования
 CloudTipsSDK.getInstance().start(configuration, this)
 ```
 
