@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
+import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.R
 import ru.cloudtips.sdk.api.HOST
 import ru.cloudtips.sdk.base.BaseActivity
@@ -112,5 +113,24 @@ class CompletionActivity : BaseActivity() {
         binding.buttonAgain.setOnClickListener {
             onBackPressed()
         }
+
+        binding.buttonClose.setOnClickListener {
+            close()
+        }
+
+        binding.imageViewClose.setOnClickListener {
+            close()
+        }
+    }
+
+    private fun close() {
+        val status = if (success) {
+            CloudTipsSDK.TransactionStatus.Succeeded
+        } else {
+            CloudTipsSDK.TransactionStatus.Cancelled
+        }
+        setResult(RESULT_OK,Intent().apply {
+            putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, status)})
+        finish()
     }
 }

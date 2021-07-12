@@ -1,20 +1,29 @@
 package ru.cloudtips.sdk.base
 
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.wallet.AutoResolveHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.cloudpayments.sdk.ui.dialogs.ThreeDsDialogFragment
+import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.api.Api
 import ru.cloudtips.sdk.api.models.PaymentResponse
 import ru.cloudtips.sdk.api.models.VerifyResponse
 import ru.cloudtips.sdk.ui.CardActivity
 import ru.cloudtips.sdk.ui.CompletionActivity
+import ru.cloudtips.sdk.ui.TipsActivity
 import ru.cloudtips.sdk.utils.RECAPCHA_V2_TOKEN
 
 abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialogListener {
+
+    companion object {
+        const val REQUEST_CODE_COMPLETION_ACTIVITY = 100
+    }
 
     protected fun verifyV3(amount: String, layoutId: String) {
         showLoading()
@@ -101,8 +110,7 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
         if (response.status != null) {
             hideLoading()
             val intent = CompletionActivity.getStartIntent(this, photoUrl(), name(), false, response.title.toString(), response.detail.toString())
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, REQUEST_CODE_COMPLETION_ACTIVITY)
             return
         }
 
@@ -120,14 +128,25 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
         } else if (response.statusCode == "Success") {
             hideLoading()
             val intent = CompletionActivity.getStartIntent(this, photoUrl(), name(), true, "", "")
-            startActivity(intent)
-
-            if (this is CardActivity) {
-                finish()
-            }
+            startActivityForResult(intent, REQUEST_CODE_COMPLETION_ACTIVITY)
         } else {
             hideLoading()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = when (requestCode) {
+        REQUEST_CODE_COMPLETION_ACTIVITY -> {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    setResult(RESULT_OK, Intent().apply {
+                        val transactionStatus = data?.getSerializableExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name) as? CloudTipsSDK.TransactionStatus
+                        putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, transactionStatus)})
+                    finish()
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+        else -> super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onAuthorizationCompleted(md: String, paRes: String) {
@@ -145,4 +164,6 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
     abstract fun comment(): String
     abstract fun photoUrl(): String
     abstract fun name(): String
+
+
 }

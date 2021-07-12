@@ -4,7 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import ru.cloudtips.sdk.ui.TipsActivity
 
 interface CloudTipsSDK {
-	fun start(configuration: TipsConfiguration, from: AppCompatActivity)
+
+	fun start(configuration: TipsConfiguration, from: AppCompatActivity, requestCode: Int)
+
+	enum class TransactionStatus {
+		Succeeded,
+		Cancelled;
+	}
+	enum class IntentKeys {
+		TransactionStatus;
+	}
 
 	companion object {
 		fun getInstance(): CloudTipsSDK {
@@ -14,7 +23,8 @@ interface CloudTipsSDK {
 }
 
 internal class CloudTipsSDKImpl: CloudTipsSDK {
-	override fun start(configuration: TipsConfiguration, from: AppCompatActivity) {
-		from.startActivity(TipsActivity.getStartIntent(from, configuration))
+
+	override fun start(configuration: TipsConfiguration, from: AppCompatActivity, requestCode: Int) {
+		from.startActivityForResult(TipsActivity.getStartIntent(from, configuration), requestCode)
 	}
 }

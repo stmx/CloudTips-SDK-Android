@@ -37,6 +37,7 @@
 
     <string name="completion_send_again">Отправить ещё</string>
     <string name="completion_try_again">Попробовать ещё раз</string>
+    <string name="completion_close">Закрыть</string>
     <string name="completion_success_true">Радуется чаевым!</string>
     <string name="completion_success_true_name_is_empty">Спасибо за платеж с CloudTips!</string>
     <string name="completion_error">Ошибка оплаты!</string>

@@ -19,7 +19,9 @@ import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import ru.cloudpayments.sdk.configuration.CloudpaymentsSDK
 import ru.cloudpayments.sdk.util.TextWatcherAdapter
+import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.R
 import ru.cloudtips.sdk.TipsConfiguration
 import ru.cloudtips.sdk.api.Api
@@ -83,6 +85,12 @@ internal class TipsActivity : PayActivity()  {
     }
 
     private fun initUI() {
+
+        binding.imageViewClose.setOnClickListener {
+            setResult(RESULT_OK,Intent().apply {
+            putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, CloudTipsSDK.TransactionStatus.Cancelled)})
+            finish()
+        }
 
         binding.editTextAmount.addTextChangedListener(object : TextWatcherAdapter() {
 
@@ -288,6 +296,17 @@ internal class TipsActivity : PayActivity()  {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = when (requestCode) {
+        REQUEST_CODE_CARD_ACTIVITY -> {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    setResult(RESULT_OK, Intent().apply {
+                        val transactionStatus = data?.getSerializableExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name) as? CloudTipsSDK.TransactionStatus
+                        putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, transactionStatus)})
+                    finish()
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
         REQUEST_CODE_GOOGLE_PAY -> {
             when (resultCode) {
                 Activity.RESULT_OK -> {

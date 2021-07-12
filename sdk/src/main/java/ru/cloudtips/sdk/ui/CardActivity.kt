@@ -11,6 +11,7 @@ import ru.cloudpayments.sdk.card.Card
 import ru.cloudpayments.sdk.card.CardType
 import ru.cloudpayments.sdk.ui.dialogs.ThreeDsDialogFragment
 import ru.cloudpayments.sdk.util.TextWatcherAdapter
+import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.R
 import ru.cloudtips.sdk.api.Api
 import ru.cloudtips.sdk.api.models.PublicId
@@ -103,6 +104,12 @@ class CardActivity : PayActivity(), ThreeDsDialogFragment.ThreeDSDialogListener 
     }
 
     private fun initUI() {
+
+        binding.imageViewClose.setOnClickListener {
+            setResult(RESULT_OK,Intent().apply {
+                putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, CloudTipsSDK.TransactionStatus.Cancelled)})
+            finish()
+        }
 
         cardNumberFormatWatcher.installOn(binding.editTextCardNumber)
         cardExpFormatWatcher.installOn(binding.editTextExpDate)
