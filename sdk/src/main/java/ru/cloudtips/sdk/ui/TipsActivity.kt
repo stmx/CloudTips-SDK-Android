@@ -19,11 +19,11 @@ import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.cloudpayments.sdk.configuration.CloudpaymentsSDK
 import ru.cloudpayments.sdk.util.TextWatcherAdapter
 import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.R
 import ru.cloudtips.sdk.TipsConfiguration
+import ru.cloudtips.sdk.TipsData
 import ru.cloudtips.sdk.api.Api
 import ru.cloudtips.sdk.api.ApiEndPoint
 import ru.cloudtips.sdk.api.models.*
@@ -139,11 +139,11 @@ internal class TipsActivity : PayActivity()  {
                 } else {
                     binding.buttonGPay.visibility = View.GONE
                 }
-                getLayout(configuration.tipsData.phone)
+                getLayout(configuration.tipsData)
             }
             .onErrorReturn {
                 binding.buttonGPay.visibility = View.GONE
-                getLayout(configuration.tipsData.phone)
+                getLayout(configuration.tipsData)
             }
             .subscribe()
 
@@ -179,6 +179,14 @@ internal class TipsActivity : PayActivity()  {
         initRecaptchaTextView(binding.textViewRecaptcha)
     }
 
+    private fun getLayout(data: TipsData) {
+        when {
+            data.phone.isNotEmpty() -> getLayout(data.phone)
+            data.layoutId.isNotEmpty() -> checkGetLayoutResponse(arrayListOf(Layout(layoutId)))
+            else -> return
+        }
+    }
+
     private fun getLayout(phoneNumber: String) {
         compositeDisposable.add(
             Api.getLayout(phoneNumber)
@@ -189,7 +197,7 @@ internal class TipsActivity : PayActivity()  {
     }
 
     private fun checkGetLayoutResponse(layouts: ArrayList<Layout>) {
-        if (layouts.size == 0) {
+        if (layouts.size == 0 && configuration.tipsData.layoutId.isEmpty()) {
             offlineRegister(configuration.tipsData.phone, configuration.tipsData.name, configuration.tipsData.partner)
         } else {
             layouts[0].layoutId?.let {
