@@ -182,7 +182,7 @@ internal class TipsActivity : PayActivity()  {
     private fun getLayout(data: TipsData) {
         when {
             data.phone.isNotEmpty() -> getLayout(data.phone)
-            data.layoutId.isNotEmpty() -> checkGetLayoutResponse(arrayListOf(Layout(layoutId)))
+            data.layoutId.isNotEmpty() -> checkGetLayoutResponse(arrayListOf(Layout(data.layoutId)))
             else -> return
         }
     }
