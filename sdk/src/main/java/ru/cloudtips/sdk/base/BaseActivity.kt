@@ -52,11 +52,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     open fun handleError(throwable: Throwable, vararg ignoreClasses: Class<*>?) {
         hideLoading()
-        setResult(RESULT_OK, Intent().apply {
-            val transactionStatus = CloudTipsSDK.TransactionStatus.Cancelled
-            putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, transactionStatus)
-        })
-        finish()
         if (ignoreClasses.isNotEmpty()) {
             val classList = listOf(*ignoreClasses)
             if (classList.contains(throwable.javaClass)) {
@@ -69,8 +64,13 @@ abstract class BaseActivity : AppCompatActivity() {
                 showToast(message)
             }
             is UnknownHostException -> showToast(R.string.app_no_internet_connection)
-            else -> if (BuildConfig.DEBUG) showToast(throwable.message)
+            else -> if (BuildConfig.DEBUG) showToast("debugError: ${throwable.message}")
         }
+        setResult(RESULT_OK, Intent().apply {
+            val transactionStatus = CloudTipsSDK.TransactionStatus.Cancelled
+            putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, transactionStatus)
+        })
+        finish()
     }
 
     fun initRecaptchaTextView(view: TextView) {
