@@ -18,7 +18,7 @@ class ApiMap : HashMap<String, Any>() {
     private fun urlEncodeUTF8(map: Map<*, *>): String {
         val sb = StringBuilder()
         for ((key, value) in map) {
-            if (sb.length > 0) {
+            if (sb.isNotEmpty()) {
                 sb.append("&")
             }
             sb.append(

@@ -266,7 +266,7 @@ internal class TipsActivity : PayActivity()  {
             binding.textViewDescription.setText(R.string.tips_desc_name_is_not_empty)
         }
 
-        var amountConstraints = paymentPage.amount?.constraints
+        val amountConstraints = paymentPage.amount?.constraints
 
         if (amountConstraints != null) {
             for (constraint in amountConstraints) {
@@ -298,9 +298,9 @@ internal class TipsActivity : PayActivity()  {
     }
 
     private fun checkGetPublicIdForGPayResponse(publicId: PublicId) {
-        val publicId = publicId.publicId.toString()
+        val id = publicId.publicId.toString()
         hideLoading()
-        GooglePayHandler.present(publicId, amount(), this, REQUEST_CODE_GOOGLE_PAY)
+        GooglePayHandler.present(id, amount(), this, REQUEST_CODE_GOOGLE_PAY)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = when (requestCode) {
@@ -343,7 +343,7 @@ internal class TipsActivity : PayActivity()  {
 
     private fun handleGooglePayFailure(intent: Intent?) {
         val status = AutoResolveHelper.getStatusFromIntent(intent)
-        Log.w("loadPaymentData failed", String.format("Payment error code: %s", status.toString()))
+        Log.w("loadPaymentData failed", String.format("Payment error code: %s", status?.toString()))
     }
 
     private fun isValid(): Boolean {

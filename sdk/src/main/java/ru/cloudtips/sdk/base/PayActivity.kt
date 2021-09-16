@@ -6,7 +6,6 @@ import android.util.Log
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
-import com.google.android.gms.wallet.AutoResolveHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.cloudpayments.sdk.ui.dialogs.ThreeDsDialogFragment
@@ -14,9 +13,7 @@ import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.api.Api
 import ru.cloudtips.sdk.api.models.PaymentResponse
 import ru.cloudtips.sdk.api.models.VerifyResponse
-import ru.cloudtips.sdk.ui.CardActivity
 import ru.cloudtips.sdk.ui.CompletionActivity
-import ru.cloudtips.sdk.ui.TipsActivity
 import ru.cloudtips.sdk.utils.RECAPCHA_V2_TOKEN
 
 abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialogListener {
@@ -45,9 +42,10 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
             auth(layoutId(), cryptogram(), amount(), comment(), "")
         } else if (response.type == "InvalidCaptcha") {
             SafetyNet.getClient(this).verifyWithRecaptcha(RECAPCHA_V2_TOKEN)
-                .addOnSuccessListener(this) { response ->
-                    if (!response.tokenResult.isEmpty()) {
-                        handleVerify(response.tokenResult)
+                .addOnSuccessListener(this) { result ->
+                    val token = result.tokenResult
+                    if (!token.isNullOrEmpty()) {
+                        handleVerify(token)
                     }
                 }
                 .addOnFailureListener(this) { e ->
@@ -62,7 +60,7 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
 
     private fun handleVerify(responseToken: String) {
 
-        if (responseToken != null && responseToken.isNotEmpty()) {
+        if (responseToken.isNotEmpty()) {
             verifyV2(responseToken, amount(), layoutId())
         }
     }
@@ -155,7 +153,7 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
 
     override fun onAuthorizationFailed(error: String?) {
         Log.e("onAuthorizationFailed", "onAuthorizationFailed")
-        Log.e("onAuthorizationFailed", error)
+        Log.e("onAuthorizationFailed", error ?: "Unknown error")
     }
 
     abstract fun cryptogram(): String
