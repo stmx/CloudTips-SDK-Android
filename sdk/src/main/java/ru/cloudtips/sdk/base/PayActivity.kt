@@ -152,6 +152,7 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
     }
 
     override fun onAuthorizationFailed(error: String?) {
+        hideLoading()
         Log.e("onAuthorizationFailed", "onAuthorizationFailed")
         Log.e("onAuthorizationFailed", error ?: "Unknown error")
     }
