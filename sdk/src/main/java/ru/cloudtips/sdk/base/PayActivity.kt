@@ -60,6 +60,11 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        supportFragmentManager.fragments.takeIf { it.isNotEmpty() }?.forEach { _ -> hideLoading() }
+    }
+
     private fun handleVerify(responseToken: String) {
 
         if (responseToken.isNotEmpty()) {
