@@ -6,7 +6,6 @@ import android.util.Log
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
-import com.huawei.hms.support.api.safetydetect.SafetyDetect
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.cloudpayments.sdk.ui.dialogs.ThreeDsDialogFragment
