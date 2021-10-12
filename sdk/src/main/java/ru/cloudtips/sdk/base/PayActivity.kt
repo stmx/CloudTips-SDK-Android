@@ -6,18 +6,15 @@ import android.util.Log
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
-import com.google.android.gms.wallet.AutoResolveHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.cloudpayments.sdk.ui.dialogs.ThreeDsDialogFragment
 import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.api.Api
+import ru.cloudtips.sdk.api.ApiEndPoint
 import ru.cloudtips.sdk.api.models.PaymentResponse
 import ru.cloudtips.sdk.api.models.VerifyResponse
-import ru.cloudtips.sdk.ui.CardActivity
 import ru.cloudtips.sdk.ui.CompletionActivity
-import ru.cloudtips.sdk.ui.TipsActivity
-import ru.cloudtips.sdk.utils.RECAPCHA_V2_TOKEN
 
 abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialogListener {
 
@@ -44,7 +41,7 @@ abstract class PayActivity : BaseActivity(), ThreeDsDialogFragment.ThreeDSDialog
 
             auth(layoutId(), cryptogram(), amount(), comment(), "")
         } else if (response.type == "InvalidCaptcha") {
-            SafetyNet.getClient(this).verifyWithRecaptcha(RECAPCHA_V2_TOKEN)
+            SafetyNet.getClient(this).verifyWithRecaptcha(ApiEndPoint.getRecapchaV2Token())
                 .addOnSuccessListener(this) { response ->
                     if (!response.tokenResult.isEmpty()) {
                         handleVerify(response.tokenResult)
