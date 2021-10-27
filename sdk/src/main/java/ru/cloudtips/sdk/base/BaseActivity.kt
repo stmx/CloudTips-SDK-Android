@@ -23,7 +23,7 @@ import java.util.*
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected val TAG = "TAG_" + javaClass.simpleName.toUpperCase(Locale.getDefault())
+    protected val TAG = "TAG_" + javaClass.simpleName.uppercase(Locale.getDefault())
     protected var compositeDisposable = CompositeDisposable()
 
     abstract fun showLoading()

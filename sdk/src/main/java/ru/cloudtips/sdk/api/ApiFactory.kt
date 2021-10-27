@@ -10,9 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.cloudtips.sdk.api.interfaces.TipsApi
 import java.util.concurrent.TimeUnit
 
-const val TIMEOUT: Long = 60;
-const val WRITE_TIMEOUT: Long = 20;
-const val CONNECT_TIMEOUT: Long = 10;
+const val TIMEOUT: Long = 60
+const val WRITE_TIMEOUT: Long = 20
+const val CONNECT_TIMEOUT: Long = 10
 
 class ApiFactory {
 

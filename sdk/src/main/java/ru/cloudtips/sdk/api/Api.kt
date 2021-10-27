@@ -17,7 +17,7 @@ class Api {
 
         fun offlineRegister(phoneNumber: String, name: String, partner: String): Single<ArrayList<Layout>> {
 
-            var body = OfflineRegisterRequestBody(phoneNumber = phoneNumber,
+            val body = OfflineRegisterRequestBody(phoneNumber = phoneNumber,
                     name = name,
                     agentCode = partner)
 
@@ -34,7 +34,7 @@ class Api {
 
         fun getPublicId(layoutId: String): Single<PublicId> {
 
-            var body = GetPublicIdRequestBody(layoutId = layoutId)
+            val body = GetPublicIdRequestBody(layoutId = layoutId)
 
             return ApiFactory.getTipsApi()
                 .getPublicId(body)

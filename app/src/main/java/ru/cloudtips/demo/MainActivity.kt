@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_CODE_TIPS = 1
     }
 
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
