@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.disposables.CompositeDisposable
 import ru.cloudpayments.sdk.api.models.CloudpaymentsTransactionError
+import ru.cloudtips.sdk.BuildConfig
+import ru.cloudtips.sdk.CloudTipsSDK
 import ru.cloudtips.sdk.R
 import java.net.UnknownHostException
 import java.util.*
@@ -62,8 +64,13 @@ abstract class BaseActivity : AppCompatActivity() {
                 showToast(message)
             }
             is UnknownHostException -> showToast(R.string.app_no_internet_connection)
-            else -> showToast(throwable.message)
+            else -> if (BuildConfig.DEBUG) showToast("debugError: ${throwable.message}")
         }
+        setResult(RESULT_OK, Intent().apply {
+            val transactionStatus = CloudTipsSDK.TransactionStatus.Cancelled
+            putExtra(CloudTipsSDK.IntentKeys.TransactionStatus.name, transactionStatus)
+        })
+        finish()
     }
 
     fun initRecaptchaTextView(view: TextView) {
