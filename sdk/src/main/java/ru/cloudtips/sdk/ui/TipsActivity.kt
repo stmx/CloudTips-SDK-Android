@@ -241,7 +241,7 @@ internal class TipsActivity : PayActivity()  {
     private fun checkGetPaymentPageResponse(paymentPage: PaymentPage) {
 
         photoUrl = paymentPage.avatarUrl ?: ""
-        if (photoUrl == "https://api.cloudtips.ru/api/images/avatar-default" || photoUrl == "https://api-preprod.cloudtips.ru/api/images/avatar-default") {
+        if (photoUrl == "https://api.cloudtips.ru/api/images/avatar-default" || photoUrl == "https://api-sandbox.cloudtips.ru/api/images/avatar-default") {
             photoUrl = ""
         }
 
