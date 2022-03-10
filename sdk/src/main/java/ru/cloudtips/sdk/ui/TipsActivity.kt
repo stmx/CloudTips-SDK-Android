@@ -129,13 +129,14 @@ internal class TipsActivity : PayActivity()  {
         binding.radioButton2000.setOnCheckedChangeListener(listener)
         binding.radioButton3000.setOnCheckedChangeListener(listener)
         binding.radioButton5000.setOnCheckedChangeListener(listener)
+        binding.buttonGPay.isEnabled = true
 
         GooglePayHandler.isReadyToMakeGooglePay(this)
             .toObservable()
             .observeOn(AndroidSchedulers.mainThread())
             .map {
                 if (it) {
-                    binding.buttonGPay.visibility = View.VISIBLE
+                    binding.buttonGPay.visibility = View.GONE
                 } else {
                     binding.buttonGPay.visibility = View.GONE
                 }
